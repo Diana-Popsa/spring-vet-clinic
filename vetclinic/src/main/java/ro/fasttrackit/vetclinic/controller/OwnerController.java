@@ -3,6 +3,7 @@ package ro.fasttrackit.vetclinic.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.fasttrackit.vetclinic.controller.model.OwnerDtoSeparation;
 import ro.fasttrackit.vetclinic.model.Owner;
 import ro.fasttrackit.vetclinic.service.OwnerService;
 
@@ -29,8 +30,8 @@ public class OwnerController {
 
 
     @GetMapping("/api/owner/{id}")
-    public Owner getOwnerById(@PathVariable(name = "id") Long ownerId) {
-        return service.getOwnerById(ownerId);
+    public Owner getOwnerById(@PathVariable(name = "id") Long ownerId, @RequestBody OwnerDtoSeparation dto) {
+        return service.getOwnerById(dto.getOwnerId());
     }
 
     @PutMapping("/api/owner")

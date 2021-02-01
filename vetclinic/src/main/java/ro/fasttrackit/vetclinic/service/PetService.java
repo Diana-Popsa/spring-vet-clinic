@@ -6,6 +6,7 @@ import ro.fasttrackit.vetclinic.model.Pet;
 import ro.fasttrackit.vetclinic.model.entity.PetEntity;
 import ro.fasttrackit.vetclinic.repository.PetRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ public class PetService {
         this.repository = injectedRepo;
     }
 
+    @Transactional
     public List<Pet> findAllPets() {
         return this.repository.findAll()
                 .stream()
@@ -27,12 +29,15 @@ public class PetService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public Pet getPetById(Long petId) {
         return this.repository.findPetById(petId)
                 .map(petEntity -> mapEntityToResponse(petEntity))
                 .get();
     }
 
+
+    @Transactional
     public Pet createNewPet(Pet request) {
         PetEntity newPet = new PetEntity();
         newPet.setName(request.getName());
@@ -42,6 +47,8 @@ public class PetService {
         return mapEntityToResponse(savedPetEntity);
     }
 
+
+@Transactional
     public Pet updatePet(Pet requested) {
         PetEntity petUpdate = new PetEntity();
         petUpdate.setId(requested.getId());
@@ -52,10 +59,13 @@ public class PetService {
         return mapEntityToResponse(updatePet);
     }
 
+    @Transactional
     public void deletePetById(Long id) {
         this.repository.deleteById(id);
     }
 
+
+    @Transactional
     private Pet mapEntityToResponse(PetEntity petEntity) {
         Pet response = new Pet();
         response.setId(petEntity.getId());

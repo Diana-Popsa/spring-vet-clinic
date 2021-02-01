@@ -6,6 +6,7 @@ import ro.fasttrackit.vetclinic.model.Owner;
 import ro.fasttrackit.vetclinic.model.entity.OwnerEntity;
 import ro.fasttrackit.vetclinic.repository.OwnerRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,8 @@ public class OwnerService {
         this.repository = injectedOwnerRep;
     }
 
+
+    @Transactional
     private Owner mapOwnerEntityToResponse(OwnerEntity ownerEntity) {
         Owner response = new Owner();
         response.setId(ownerEntity.getId());
@@ -29,6 +32,7 @@ public class OwnerService {
         return response;
     }
 
+    @Transactional
     public Owner createNewOwner(Owner request) {
         OwnerEntity newOwner = new OwnerEntity();
         newOwner.setFirstName(request.getFirstName());
@@ -39,16 +43,20 @@ public class OwnerService {
         return mapOwnerEntityToResponse(savedOwnerEntity);
     }
 
+
+    @Transactional
     public List<Owner> findAllOwners() {
         return this.repository.findAll().stream().map(ownerEntity -> mapOwnerEntityToResponse(ownerEntity))
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public Owner getOwnerById(Long ownerId) {
         return this.repository.findOwnerById(ownerId).map(ownerEntity -> mapOwnerEntityToResponse(ownerEntity))
                 .get();
     }
 
+    @Transactional
     public Owner updateOwner(Owner requested) {
         OwnerEntity ownerUpdate = new OwnerEntity();
         ownerUpdate.setId(requested.getId());
@@ -60,6 +68,7 @@ public class OwnerService {
         return mapOwnerEntityToResponse(updateOwner);
     }
 
+    @Transactional
     public void deleteOwnerById(Long id) {
         this.repository.deleteById(id);
     }

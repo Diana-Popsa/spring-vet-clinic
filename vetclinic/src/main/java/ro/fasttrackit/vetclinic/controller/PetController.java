@@ -3,6 +3,7 @@ package ro.fasttrackit.vetclinic.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ro.fasttrackit.vetclinic.controller.model.PetDtoSeparation;
 import ro.fasttrackit.vetclinic.model.Pet;
 import ro.fasttrackit.vetclinic.service.PetService;
 
@@ -17,8 +18,8 @@ public class PetController {
     }
 
     @GetMapping("/api/pet/{id}")
-    public Pet getPetById(@RequestParam(name= "id", required = false) Long petId) {
-        return service.getPetById(petId);
+    public Pet getPetById(@RequestParam(name= "id", required = false) Long petId, @RequestBody PetDtoSeparation dto) {
+        return this.service.getPetById(dto.getPetId());
     }
 
     @GetMapping("/api/pet")
