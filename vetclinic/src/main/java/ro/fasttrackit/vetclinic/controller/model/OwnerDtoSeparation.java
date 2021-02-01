@@ -5,22 +5,40 @@ import ro.fasttrackit.vetclinic.model.entity.OwnerEntity;
 import java.util.Optional;
 
 public class OwnerDtoSeparation {
-    private Optional<OwnerEntity> ownerEntity;
-    private Long ownerId;
+   private Long id;
+   private String firstName;
+   private String lastName;
+   private Long cnp;
 
-    public Optional<OwnerEntity> getOwnerEntity() {
-        return ownerEntity;
+    public Long getId() {
+        return id;
     }
 
-    public void setOwnerEntity(Optional<OwnerEntity> ownerEntity) {
-        this.ownerEntity = ownerEntity;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Long getOwnerId() {
-        return ownerId;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Long getCnp() {
+        return cnp;
+    }
+
+    public void setCnp(Long cnp) {
+        this.cnp = cnp;
     }
 }

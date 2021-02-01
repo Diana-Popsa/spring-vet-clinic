@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
-class PetServiceTest {
+public class PetServiceTest {
     @InjectMocks
     private PetService service;
     @Mock

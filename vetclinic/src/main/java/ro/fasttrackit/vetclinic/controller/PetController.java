@@ -18,8 +18,8 @@ public class PetController {
     }
 
     @GetMapping("/api/pet/{id}")
-    public Pet getPetById(@RequestParam(name= "id", required = false) Long petId, @RequestBody PetDtoSeparation dto) {
-        return this.service.getPetById(dto.getPetId());
+    public Pet getPetById(@RequestParam(name= "id", required = false) Long petId) {
+        return this.service.getPetById(petId);
     }
 
     @GetMapping("/api/pet")
