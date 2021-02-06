@@ -3,7 +3,6 @@ package ro.fasttrackit.vetclinic.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.fasttrackit.vetclinic.controller.model.PetDtoSeparation;
 import ro.fasttrackit.vetclinic.model.Pet;
 import ro.fasttrackit.vetclinic.service.PetService;
 
@@ -28,7 +27,7 @@ public class PetController {
     }
 
 
-    @PostMapping("/api/pet")//works
+    @PostMapping("/api/pet")
     public ResponseEntity<Pet> createNewPet(@RequestBody Pet petRequest) {
         return ResponseEntity.ok(service.createNewPet(petRequest));
     }

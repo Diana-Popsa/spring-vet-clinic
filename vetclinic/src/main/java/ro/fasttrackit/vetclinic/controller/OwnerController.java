@@ -30,8 +30,8 @@ public class OwnerController {
 
 
     @GetMapping("/api/owner/{id}")
-    public Owner getOwnerById(@PathVariable(name = "id") Long ownerId, @RequestBody OwnerDtoSeparation dto) {
-        return service.getOwnerById(dto.getOwnerId());
+    public Owner getOwnerById(@PathVariable(name = "id") Long ownerId) {
+        return service.getOwnerById(ownerId);
     }
 
     @PutMapping("/api/owner")

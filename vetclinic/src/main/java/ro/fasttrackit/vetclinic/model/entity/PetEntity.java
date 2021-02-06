@@ -17,7 +17,7 @@ public class PetEntity {
     @Enumerated(EnumType.STRING)
     private Species type;
 
-    @ManyToMany(mappedBy = "owner")
+    @ManyToMany(mappedBy = "pet")
     private List<OwnerEntity> owner;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pet")
