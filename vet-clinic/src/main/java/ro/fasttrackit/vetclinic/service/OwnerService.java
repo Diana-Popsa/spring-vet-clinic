@@ -29,6 +29,8 @@ public class OwnerService {
         response.setFirstName(ownerEntity.getFirstName());
         response.setLastName(ownerEntity.getLastName());
         response.setCnp(ownerEntity.getCnp());
+        response.setEmail(ownerEntity.getEmail());
+        response.setPhoneNumber(ownerEntity.getPhoneNumber());
         return response;
     }
 
@@ -38,6 +40,8 @@ public class OwnerService {
         newOwner.setFirstName(request.getFirstName());
         newOwner.setLastName(request.getLastName());
         newOwner.setCnp(request.getCnp());
+        newOwner.setPhoneNumber(request.getPhoneNumber());
+        newOwner.setEmail(request.getEmail());
 
         OwnerEntity savedOwnerEntity = this.repository.save(newOwner);
         return mapOwnerEntityToResponse(savedOwnerEntity);
@@ -66,6 +70,8 @@ public class OwnerService {
         ownerUpdate.setFirstName(requested.getFirstName());
         ownerUpdate.setLastName(requested.getLastName());
         ownerUpdate.setCnp(requested.getCnp());
+        ownerUpdate.setPhoneNumber(requested.getPhoneNumber());
+        ownerUpdate.setEmail(requested.getEmail());
 
         OwnerEntity updateOwner = this.repository.save(ownerUpdate);
         return mapOwnerEntityToResponse(updateOwner);

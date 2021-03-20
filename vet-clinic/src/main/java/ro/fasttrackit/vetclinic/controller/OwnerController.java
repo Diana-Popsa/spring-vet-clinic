@@ -41,7 +41,7 @@ public class OwnerController {
     }
 
     @DeleteMapping("/api/owner/{id}")
-    public void deleteOwner(@PathVariable("id") Long idToBeDeleted) {
+    public void deleteOwner(@PathVariable(name = "id") Long idToBeDeleted) {
         this.service.deleteOwnerById(idToBeDeleted);
     }
 }

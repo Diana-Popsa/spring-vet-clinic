@@ -1,16 +1,24 @@
 package ro.fasttrackit.vetclinic.model;
 
-import java.time.Year;
+import java.util.Date;
 
 public class VetDto {
     private Long id;
     private String firstName;
     private String lastName;
     private String cnp;
-    private Year yearOfGraduation;
+    private Date yearOfGraduation;
     private String specialization;
     private String phoneNumber;
     private String email;
+
+    public Date getYearOfGraduation() {
+        return yearOfGraduation;
+    }
+
+    public void setYearOfGraduation(Date yearOfGraduation) {
+        this.yearOfGraduation = yearOfGraduation;
+    }
 
     public Long getId() {
         return id;
@@ -42,14 +50,6 @@ public class VetDto {
 
     public void setCnp(String cnp) {
         this.cnp = cnp;
-    }
-
-    public Year getYearOfGraduation() {
-        return yearOfGraduation;
-    }
-
-    public void setYearOfGraduation(Year yearOfGraduation) {
-        this.yearOfGraduation = yearOfGraduation;
     }
 
     public String getSpecialization() {

@@ -17,24 +17,24 @@ public class ReceiverConfig {
     }
 
     @Bean
-    public Queue diagnosisQueue(){
+    public Queue diagnosisQueue() {
         return new Queue("diagnosis");
     }
 
 
     @Bean
-    public DirectExchange directExchange(){
+    public DirectExchange directExchange() {
         return new DirectExchange("directExchange");
     }
 
 
     @Bean
-    public Binding bindingConsult (DirectExchange directExchange, Queue consultationQueue){
+    public Binding bindingConsult(DirectExchange directExchange, Queue consultationQueue) {
         return BindingBuilder.bind(consultationQueue).to(directExchange).with("consultation");
     }
 
     @Bean
-    public Binding bindingDiagnosis (DirectExchange directExchange, Queue diagnosisQueue){
+    public Binding bindingDiagnosis(DirectExchange directExchange, Queue diagnosisQueue) {
         return BindingBuilder.bind(diagnosisQueue).to(directExchange).with("diagnosis");
     }
 

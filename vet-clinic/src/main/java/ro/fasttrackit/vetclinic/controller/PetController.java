@@ -17,7 +17,7 @@ public class PetController {
     }
 
     @GetMapping("/api/pet/{id}")
-    public PetDto getPetById(@RequestParam(name= "id", required = false) Long petId) {
+    public PetDto getPetById(@PathVariable(name = "id") Long petId) {
         return this.service.getPetById(petId);
     }
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ro.fasttrackit.vetclinic.model.DiagnosisDto;
 import ro.fasttrackit.vetclinic.model.entity.DiagnosisEntity;
+import ro.fasttrackit.vetclinic.model.messageSender.DiagnosisMessageDto;
 import ro.fasttrackit.vetclinic.repository.ConsultationRepository;
 import ro.fasttrackit.vetclinic.repository.DiagnosisRepository;
 
@@ -23,37 +24,45 @@ public class DiagnosisService {
     private final RabbitTemplate rabbitTemplate;
     private final DirectExchange directExchange;
 
-    public DiagnosisService(DiagnosisRepository injectedRepo, ConsultationRepository injectedConsultationRepository, RabbitTemplate injectedRabbitTemplate, DirectExchange injectedDirectExchange){
+    public DiagnosisService(DiagnosisRepository injectedRepo, ConsultationRepository injectedConsultationRepository, RabbitTemplate injectedRabbitTemplate, DirectExchange injectedDirectExchange) {
         this.repository = injectedRepo;
         this.consultationRepository = injectedConsultationRepository;
         this.rabbitTemplate = injectedRabbitTemplate;
         this.directExchange = injectedDirectExchange;
     }
 
-    private DiagnosisDto mapEntityToResponse(DiagnosisEntity diagnosisEntity){
+    private DiagnosisDto mapEntityToResponse(DiagnosisEntity diagnosisEntity) {
         DiagnosisDto response = new DiagnosisDto();
         response.setId(diagnosisEntity.getId());
-        response.setConsultationID(diagnosisEntity.getConsultation().getId());
+        response.setConsultationId(diagnosisEntity.getConsultation().getId());
         response.setTitle(diagnosisEntity.getTitle());
         response.setDescription(diagnosisEntity.getDescription());
         response.setRecommendations(diagnosisEntity.getRecommendations());
 
         return response;
     }
+
     @Transactional
-    public DiagnosisDto createNewDiagnosis(DiagnosisDto request){
+    public DiagnosisDto createNewDiagnosis(DiagnosisDto request) {
         DiagnosisEntity newDiagnosis = new DiagnosisEntity();
-        newDiagnosis.setConsultation(consultationRepository.findConsultationById(request.getConsultationID()));
+        newDiagnosis.setConsultation(consultationRepository.findConsultationById(request.getConsultationId()));
         newDiagnosis.setDescription(request.getDescription());
         newDiagnosis.setTitle(request.getTitle());
         newDiagnosis.setRecommendations(request.getRecommendations());
 
         DiagnosisEntity savedDiagnosis = this.repository.save(newDiagnosis);
 
+        DiagnosisMessageDto diagnosisMessageDto = new DiagnosisMessageDto();
+        diagnosisMessageDto.setId(newDiagnosis.getId());
+       diagnosisMessageDto.setConsultationId(newDiagnosis.getConsultation().getId());
+        diagnosisMessageDto.setDescription(newDiagnosis.getDescription());
+        diagnosisMessageDto.setTitle(newDiagnosis.getTitle());
+        diagnosisMessageDto.setRecommendations(newDiagnosis.getRecommendations());
+
         ObjectMapper objectMapper = new ObjectMapper();
 
-        try{
-            String messageConverted = objectMapper.writeValueAsString(request);
+        try {
+            String messageConverted = objectMapper.writeValueAsString(diagnosisMessageDto);
             rabbitTemplate.convertAndSend(directExchange.getName(), "diagnosis", messageConverted);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -61,5 +70,6 @@ public class DiagnosisService {
 
         return mapEntityToResponse(savedDiagnosis);
     }
+
 
 }

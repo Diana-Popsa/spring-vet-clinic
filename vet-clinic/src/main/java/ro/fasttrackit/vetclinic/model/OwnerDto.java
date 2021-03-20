@@ -1,12 +1,10 @@
 package ro.fasttrackit.vetclinic.model;
 
-import javax.persistence.Column;
-
 public class OwnerDto {
     private Long id;
     private String firstName;
     private String lastName;
-    private Long cnp;
+    private String cnp;
     private String phoneNumber;
     private String email;
 
@@ -34,11 +32,11 @@ public class OwnerDto {
         this.lastName = lastName;
     }
 
-    public Long getCnp() {
+    public String getCnp() {
         return cnp;
     }
 
-    public void setCnp(Long cnp) {
+    public void setCnp(String cnp) {
         this.cnp = cnp;
     }
 

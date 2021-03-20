@@ -13,7 +13,7 @@ public class OwnerEntity {
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "cnp")
-    private Long cnp;
+    private String cnp;
     @Column(name = "phone_number")
     private String phoneNumber;
     @Column(name = "email")
@@ -74,12 +74,28 @@ public class OwnerEntity {
         this.lastName = lastName;
     }
 
-    public Long getCnp() {
+    public String getCnp() {
         return cnp;
     }
 
-    public void setCnp(Long cnp) {
+    public void setCnp(String cnp) {
         this.cnp = cnp;
+    }
+
+    public List<PetEntity> getPet() {
+        return pet;
+    }
+
+    public void setPet(List<PetEntity> pet) {
+        this.pet = pet;
+    }
+
+    public List<ConsultationEntity> getConsultation() {
+        return consultation;
+    }
+
+    public void setConsultation(List<ConsultationEntity> consultation) {
+        this.consultation = consultation;
     }
 
     @Override

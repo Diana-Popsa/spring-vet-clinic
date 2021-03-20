@@ -13,7 +13,9 @@ public interface ConsultationRepository extends JpaRepository<ConsultationEntity
     @Query("select c from consultation c where c.id = :consult_id")
     ConsultationEntity findConsultationById(@Param("consult_id") Long consultId);
 
-//    @Query(value = "select * from consultation c where c.owner_id = :owner_id and c.pet_id = :pet_id", nativeQuery = true)
-//    Optional<ConsultationEntity> findConsultationByPetAndOwner(@Param("owner_id") Long ownerId, @Param("pet_id") Long petId);
+    @Query(value = "select * from consultation c where c.owner_id = :owner_id and c.pet_id = :pet_id", nativeQuery = true)
+    Optional<ConsultationEntity> findConsultationByOwnerwithPet(@Param("owner_id") Long ownerId,
+                                                               @Param("pet_id") Long petId);
+
 
 }

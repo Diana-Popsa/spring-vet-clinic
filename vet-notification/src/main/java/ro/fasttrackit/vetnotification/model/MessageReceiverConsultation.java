@@ -4,7 +4,6 @@ public class MessageReceiverConsultation {
     private String vetName;
     private String petName;
     private String ownerName;
-    private String diagnosis;
 
     public String getVetName() {
         return vetName;
@@ -30,13 +29,6 @@ public class MessageReceiverConsultation {
         this.ownerName = ownerName;
     }
 
-    public void setDiagnosis(String diagnosis) {
-        this.diagnosis = diagnosis;
-    }
-
-    public String getDiagnosis() {
-        return diagnosis;
-    }
 
     @Override
     public String toString() {
@@ -44,7 +36,6 @@ public class MessageReceiverConsultation {
                 "vetName='" + vetName + '\'' +
                 ", petName='" + petName + '\'' +
                 ", ownerName='" + ownerName + '\'' +
-                ", diagnosis='" + diagnosis + '\'' +
                 '}';
     }
 }

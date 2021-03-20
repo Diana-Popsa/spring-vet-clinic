@@ -14,8 +14,9 @@ public class DiagnosisController {
     }
 
     @PostMapping("/api/diagnosis")
-    public ResponseEntity<DiagnosisDto> createNewDiagnosis(@RequestParam (name = "id") Long idConsult, @RequestBody DiagnosisDto petDiagnosisDto){
+    public ResponseEntity<DiagnosisDto> createNewDiagnosis(@RequestBody DiagnosisDto petDiagnosisDto){
         return ResponseEntity.ok(service.createNewDiagnosis(petDiagnosisDto));
     }
+
 
 }

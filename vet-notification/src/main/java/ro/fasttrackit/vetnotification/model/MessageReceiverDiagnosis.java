@@ -1,12 +1,11 @@
-package ro.fasttrackit.vetclinic.model;
+package ro.fasttrackit.vetnotification.model;
 
-public class DiagnosisDto {
+public class MessageReceiverDiagnosis {
     private Long id;
     private Long consultationId;
     private String title;
     private String description;
     private String recommendations;
-
 
     public Long getId() {
         return id;
@@ -50,9 +49,9 @@ public class DiagnosisDto {
 
     @Override
     public String toString() {
-        return "DiagnosisDto{" +
+        return "MessageReceiverDiagnosis{" +
                 "id=" + id +
-                ", consultationID=" + consultationId +
+                ", consultationId=" + consultationId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", recommendations='" + recommendations + '\'' +

@@ -9,26 +9,25 @@ public class ConsultationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "recommendation")
-    private String recommendation;
+
     @Column(name = "date_of_scheduling")
     @Temporal(TemporalType.DATE)
     private Date dateOfScheduling;
+
     @Column(name = "date_of_consultation")
     @Temporal(TemporalType.DATE)
     private Date dateOfConsultation;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private VetEntity vet;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private OwnerEntity owner;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private PetEntity pet;
 
     @OneToMany(cascade = CascadeType.ALL)
-    //@ManyToMany(mappedBy = "consultation")
     private List<DiagnosisEntity> diagnosis;
 
     public Long getId() {
@@ -39,13 +38,6 @@ public class ConsultationEntity {
         this.id = id;
     }
 
-    public String getRecommendation() {
-        return recommendation;
-    }
-
-    public void setRecommendation(String recommendation) {
-        this.recommendation = recommendation;
-    }
 
     public Date getDateOfScheduling() {
         return dateOfScheduling;
@@ -99,7 +91,6 @@ public class ConsultationEntity {
     public String toString() {
         return "ConsultationEntity{" +
                 "id=" + id +
-                ", recommendation='" + recommendation + '\'' +
                 ", dateOfScheduling=" + dateOfScheduling +
                 ", dateOfConsultation=" + dateOfConsultation +
                 ", vet=" + vet +

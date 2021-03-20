@@ -7,12 +7,13 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ro.fasttrackit.vetclinic.model.ConsultationDto;
-import ro.fasttrackit.vetclinic.model.ConsultationMessageDto;
+import ro.fasttrackit.vetclinic.model.messageSender.ConsultationMessageDto;
 import ro.fasttrackit.vetclinic.model.entity.ConsultationEntity;
 import ro.fasttrackit.vetclinic.repository.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,17 +27,16 @@ public class ConsultationService {
     private final OwnerRepository ownerRepository;
     private final RabbitTemplate template;
     private final DirectExchange directExchange;
-    private final DiagnosisRepository diagnosisRepository;
 
 
-    public ConsultationService(ConsultationRepository injectedRepo, PetRepository injectedPetRepository, VetRepository injectedVetRepository, OwnerRepository injectedOwnerRepository, RabbitTemplate template, DirectExchange directExchange, DiagnosisRepository injectedDiagnosisRepository) {
+    public ConsultationService(ConsultationRepository injectedRepo, PetRepository injectedPetRepository, VetRepository injectedVetRepository, OwnerRepository injectedOwnerRepository, RabbitTemplate template, DirectExchange directExchange) {
         this.repository = injectedRepo;
         this.petRepository = injectedPetRepository;
         this.vetRepository = injectedVetRepository;
         this.ownerRepository = injectedOwnerRepository;
         this.template = template;
         this.directExchange = directExchange;
-        this.diagnosisRepository = injectedDiagnosisRepository;
+
     }
 
     @Transactional
@@ -54,8 +54,13 @@ public class ConsultationService {
         newConsultation.setDateOfConsultation(request.getDateOfConsultation());
         newConsultation.setDateOfScheduling(request.getDateOfScheduling());
         newConsultation.setVet(vetRepository.findVetById(request.getVetId()));
-        newConsultation.setOwner(ownerRepository.findOwnerById(request.getOwnerId()));
-        newConsultation.setPet(petRepository.findPetById(request.getPetId()));
+        Optional<ConsultationEntity> optionalConsultationEntity = repository.findConsultationByOwnerwithPet(request.getOwnerId(), request.getPetId());
+        if(optionalConsultationEntity.isPresent()){
+            newConsultation = optionalConsultationEntity.get();
+        }else {
+            newConsultation.setOwner(ownerRepository.findOwnerById(request.getOwnerId()));
+            newConsultation.setPet(petRepository.findPetById(request.getPetId()));
+        }
 
         ConsultationEntity savedConsultationEntity = this.repository.save(newConsultation);
 
@@ -72,9 +77,7 @@ public class ConsultationService {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-
         return mapEntityToResponse(savedConsultationEntity);
-
     }
 
     @Transactional

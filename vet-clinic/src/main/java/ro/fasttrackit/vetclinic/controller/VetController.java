@@ -17,7 +17,7 @@ public class VetController {
     }
 
     @GetMapping("/api/vet/{id}")
-    public VetDto getVetById(@RequestParam(name = "id", required = false) Long vetId){
+    public VetDto getVetById(@PathVariable(name = "id") Long vetId){
         return this.service.getVetById(vetId);
     }
 

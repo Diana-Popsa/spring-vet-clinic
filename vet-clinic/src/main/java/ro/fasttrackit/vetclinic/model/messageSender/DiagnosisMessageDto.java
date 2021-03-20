@@ -1,12 +1,11 @@
-package ro.fasttrackit.vetclinic.model;
+package ro.fasttrackit.vetclinic.model.messageSender;
 
-public class DiagnosisDto {
+public class DiagnosisMessageDto {
     private Long id;
     private Long consultationId;
     private String title;
     private String description;
     private String recommendations;
-
 
     public Long getId() {
         return id;
@@ -14,6 +13,14 @@ public class DiagnosisDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getRecommendations() {
+        return recommendations;
+    }
+
+    public void setRecommendations(String recommendations) {
+        this.recommendations = recommendations;
     }
 
     public Long getConsultationId() {
@@ -38,24 +45,5 @@ public class DiagnosisDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getRecommendations() {
-        return recommendations;
-    }
-
-    public void setRecommendations(String recommendations) {
-        this.recommendations = recommendations;
-    }
-
-    @Override
-    public String toString() {
-        return "DiagnosisDto{" +
-                "id=" + id +
-                ", consultationID=" + consultationId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", recommendations='" + recommendations + '\'' +
-                '}';
     }
 }

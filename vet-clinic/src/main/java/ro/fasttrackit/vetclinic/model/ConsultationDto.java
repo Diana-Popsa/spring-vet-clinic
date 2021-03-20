@@ -2,29 +2,19 @@ package ro.fasttrackit.vetclinic.model;
 
 
 import java.util.Date;
-import java.util.List;
 
 public class ConsultationDto {
     private Long id;
     private Date dateOfScheduling;
     private Date dateOfConsultation;
 
-    //    private VetDto vet;
-//    private OwnerDto owner;
-//    private PetDto pet;
-    private Long diagnosisId;
+
 
     private Long vetId;
     private Long petId;
     private Long ownerId;
 
-    public Long getDiagnosisId() {
-        return diagnosisId;
-    }
 
-    public void setDiagnosisId(Long diagnosisId) {
-        this.diagnosisId = diagnosisId;
-    }
 
     public Long getId() {
         return id;
@@ -80,7 +70,6 @@ public class ConsultationDto {
                 "id=" + id +
                 ", dateOfScheduling=" + dateOfScheduling +
                 ", dateOfConsultation=" + dateOfConsultation +
-                ", diagnosisId=" + diagnosisId +
                 ", vetId=" + vetId +
                 ", petId=" + petId +
                 ", ownerId=" + ownerId +

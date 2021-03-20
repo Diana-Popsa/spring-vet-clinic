@@ -1,10 +1,11 @@
-package ro.fasttrackit.vetclinic.model;
+package ro.fasttrackit.vetclinic.model.messageSender;
 
 public class ConsultationMessageDto {
+
     private String vetName;
     private String petName;
     private String ownerName;
-    private String diagnosis;
+
 
     public String getVetName() {
         return vetName;
@@ -30,11 +31,4 @@ public class ConsultationMessageDto {
         this.ownerName = ownerName;
     }
 
-    public String getDiagnosis() {
-        return diagnosis;
-    }
-
-    public void setDiagnosis(String diagnosis) {
-        this.diagnosis = diagnosis;
-    }
 }
