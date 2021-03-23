@@ -1,8 +1,7 @@
 package ro.fasttrackit.vetclinic.model.entity;
 
 import javax.persistence.*;
-import java.time.Year;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity(name = "vet")
@@ -17,7 +16,7 @@ public class VetEntity {
     @Column(name = "cnp")
     private String cnp;
     @Column(name = "year_of_Graduation")
-    private Date yearOfGraduation;
+    private LocalDate yearOfGraduation;
     @Column(name = "specialization")
     private String specialization;
     @Column(name = "phone_number")
@@ -25,11 +24,15 @@ public class VetEntity {
     @Column(name = "email")
     private String email;
 
-    public Date getYearOfGraduation() {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vet")
+    private List<ConsultationEntity> consultation;
+
+    public LocalDate getYearOfGraduation() {
         return yearOfGraduation;
     }
 
-    public void setYearOfGraduation(Date yearOfGraduation) {
+    public void setYearOfGraduation(LocalDate yearOfGraduation) {
         this.yearOfGraduation = yearOfGraduation;
     }
 
@@ -40,10 +43,6 @@ public class VetEntity {
     public void setConsultation(List<ConsultationEntity> consultation) {
         this.consultation = consultation;
     }
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vet")
-    private List<ConsultationEntity> consultation;
-
     public Long getId() {
         return id;
     }

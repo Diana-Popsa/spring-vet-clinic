@@ -1,7 +1,7 @@
 package ro.fasttrackit.vetclinic.model.entity;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity(name = "consultation")
@@ -10,24 +10,19 @@ public class ConsultationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "date_of_scheduling")
-    @Temporal(TemporalType.DATE)
-    private Date dateOfScheduling;
-
     @Column(name = "date_of_consultation")
-    @Temporal(TemporalType.DATE)
-    private Date dateOfConsultation;
+    private LocalDate dateOfConsultation;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private VetEntity vet;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private OwnerEntity owner;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private PetEntity pet;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "consultation")
     private List<DiagnosisEntity> diagnosis;
 
     public Long getId() {
@@ -38,20 +33,11 @@ public class ConsultationEntity {
         this.id = id;
     }
 
-
-    public Date getDateOfScheduling() {
-        return dateOfScheduling;
-    }
-
-    public void setDateOfScheduling(Date dateOfScheduling) {
-        this.dateOfScheduling = dateOfScheduling;
-    }
-
-    public Date getDateOfConsultation() {
+    public LocalDate getDateOfConsultation() {
         return dateOfConsultation;
     }
 
-    public void setDateOfConsultation(Date dateOfConsultation) {
+    public void setDateOfConsultation(LocalDate dateOfConsultation) {
         this.dateOfConsultation = dateOfConsultation;
     }
 
@@ -91,7 +77,6 @@ public class ConsultationEntity {
     public String toString() {
         return "ConsultationEntity{" +
                 "id=" + id +
-                ", dateOfScheduling=" + dateOfScheduling +
                 ", dateOfConsultation=" + dateOfConsultation +
                 ", vet=" + vet +
                 ", owner=" + owner +

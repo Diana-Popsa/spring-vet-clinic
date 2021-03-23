@@ -7,9 +7,15 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ro.fasttrackit.vetclinic.model.ConsultationDto;
-import ro.fasttrackit.vetclinic.model.messageSender.ConsultationMessageDto;
 import ro.fasttrackit.vetclinic.model.entity.ConsultationEntity;
-import ro.fasttrackit.vetclinic.repository.*;
+import ro.fasttrackit.vetclinic.model.entity.OwnerEntity;
+import ro.fasttrackit.vetclinic.model.entity.PetEntity;
+import ro.fasttrackit.vetclinic.model.entity.VetEntity;
+import ro.fasttrackit.vetclinic.model.message.ConsultationMessageDto;
+import ro.fasttrackit.vetclinic.repository.ConsultationRepository;
+import ro.fasttrackit.vetclinic.repository.OwnerRepository;
+import ro.fasttrackit.vetclinic.repository.PetRepository;
+import ro.fasttrackit.vetclinic.repository.VetRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -52,28 +58,25 @@ public class ConsultationService {
         ConsultationEntity newConsultation = new ConsultationEntity();
 
         newConsultation.setDateOfConsultation(request.getDateOfConsultation());
-        newConsultation.setDateOfScheduling(request.getDateOfScheduling());
         newConsultation.setVet(vetRepository.findVetById(request.getVetId()));
-        Optional<ConsultationEntity> optionalConsultationEntity = repository.findConsultationByOwnerwithPet(request.getOwnerId(), request.getPetId());
-        if(optionalConsultationEntity.isPresent()){
-            newConsultation = optionalConsultationEntity.get();
-        }else {
-            newConsultation.setOwner(ownerRepository.findOwnerById(request.getOwnerId()));
-            newConsultation.setPet(petRepository.findPetById(request.getPetId()));
-        }
+        newConsultation.setOwner(ownerRepository.findOwnerById(request.getOwnerId()));
+        newConsultation.setPet(petRepository.findPetById(request.getPetId()));
 
         ConsultationEntity savedConsultationEntity = this.repository.save(newConsultation);
 
 
         ConsultationMessageDto consultationCreatedMessage = new ConsultationMessageDto();
-        consultationCreatedMessage.setVetName(newConsultation.getVet().getFirstName() + "  " + newConsultation.getVet().getLastName());
+        consultationCreatedMessage.setId(newConsultation.getId());
         consultationCreatedMessage.setPetName(newConsultation.getPet().getName());
-        consultationCreatedMessage.setOwnerName(newConsultation.getOwner().getFirstName() + " " + newConsultation.getOwner().getLastName());
+        consultationCreatedMessage.setVetName(newConsultation.getVet().getFirstName() + "  "
+                + newConsultation.getVet().getLastName());
+        consultationCreatedMessage.setOwnerName(newConsultation.getOwner().getFirstName() + " "
+                + newConsultation.getOwner().getLastName());
 
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             String messageConverted = objectMapper.writeValueAsString(consultationCreatedMessage);
-            template.convertAndSend(directExchange.getName(), "consultation", messageConverted);
+            template.convertAndSend(directExchange.getName(), "consultation-msg", messageConverted);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -94,6 +97,7 @@ public class ConsultationService {
         consultationUpdate.setVet(vetRepository.findVetById(requested.getVetId()));
         consultationUpdate.setPet(petRepository.findPetById(requested.getPetId()));
         consultationUpdate.setOwner(ownerRepository.findOwnerById(requested.getOwnerId()));
+        consultationUpdate.setDateOfConsultation(requested.getDateOfConsultation());
 
         ConsultationEntity updatedConsult = this.repository.save(consultationUpdate);
         return mapEntityToResponse(updatedConsult);
@@ -109,12 +113,10 @@ public class ConsultationService {
         ConsultationDto response = new ConsultationDto();
         response.setId(consultationEntity.getId());
         response.setDateOfConsultation(consultationEntity.getDateOfConsultation());
-        response.setDateOfScheduling(consultationEntity.getDateOfScheduling());
         response.setVetId(consultationEntity.getVet().getId());
         response.setOwnerId(consultationEntity.getOwner().getId());
         response.setPetId(consultationEntity.getPet().getId());
         return response;
     }
-
 
 }

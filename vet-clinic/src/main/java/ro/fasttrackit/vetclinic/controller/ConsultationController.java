@@ -1,9 +1,12 @@
 package ro.fasttrackit.vetclinic.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.fasttrackit.vetclinic.model.ConsultationDto;
+import ro.fasttrackit.vetclinic.model.OwnerDto;
+import ro.fasttrackit.vetclinic.model.PetDto;
 import ro.fasttrackit.vetclinic.service.ConsultationService;
 
 import java.util.List;

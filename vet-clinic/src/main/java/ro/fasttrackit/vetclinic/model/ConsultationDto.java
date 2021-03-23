@@ -1,20 +1,14 @@
 package ro.fasttrackit.vetclinic.model;
 
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ConsultationDto {
     private Long id;
-    private Date dateOfScheduling;
-    private Date dateOfConsultation;
-
-
-
+    private LocalDate dateOfConsultation;
     private Long vetId;
     private Long petId;
     private Long ownerId;
-
-
 
     public Long getId() {
         return id;
@@ -24,19 +18,11 @@ public class ConsultationDto {
         this.id = id;
     }
 
-    public Date getDateOfScheduling() {
-        return dateOfScheduling;
-    }
-
-    public void setDateOfScheduling(Date dateOfScheduling) {
-        this.dateOfScheduling = dateOfScheduling;
-    }
-
-    public Date getDateOfConsultation() {
+    public LocalDate getDateOfConsultation() {
         return dateOfConsultation;
     }
 
-    public void setDateOfConsultation(Date dateOfConsultation) {
+    public void setDateOfConsultation(LocalDate dateOfConsultation) {
         this.dateOfConsultation = dateOfConsultation;
     }
 
@@ -68,7 +54,6 @@ public class ConsultationDto {
     public String toString() {
         return "ConsultationDto{" +
                 "id=" + id +
-                ", dateOfScheduling=" + dateOfScheduling +
                 ", dateOfConsultation=" + dateOfConsultation +
                 ", vetId=" + vetId +
                 ", petId=" + petId +

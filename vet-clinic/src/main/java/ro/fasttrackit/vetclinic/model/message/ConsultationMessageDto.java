@@ -1,11 +1,18 @@
-package ro.fasttrackit.vetclinic.model.messageSender;
+package ro.fasttrackit.vetclinic.model.message;
 
 public class ConsultationMessageDto {
-
+    private Long id;
     private String vetName;
     private String petName;
     private String ownerName;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getVetName() {
         return vetName;

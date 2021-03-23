@@ -1,6 +1,7 @@
 package ro.fasttrackit.vetnotification.message;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -20,7 +21,7 @@ public class ConsultationReceiver {
     public void receiveConsultation(String consultationMessage) {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        try{
+        try {
             MessageReceiverConsultation messageReceiverConsultation = objectMapper.readValue(consultationMessage, MessageReceiverConsultation.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();

@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ro.fasttrackit.vetclinic.model.DiagnosisDto;
 import ro.fasttrackit.vetclinic.model.entity.DiagnosisEntity;
-import ro.fasttrackit.vetclinic.model.messageSender.DiagnosisMessageDto;
+import ro.fasttrackit.vetclinic.model.message.DiagnosisMessageDto;
 import ro.fasttrackit.vetclinic.repository.ConsultationRepository;
 import ro.fasttrackit.vetclinic.repository.DiagnosisRepository;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DiagnosisService {
@@ -50,20 +52,22 @@ public class DiagnosisService {
         newDiagnosis.setTitle(request.getTitle());
         newDiagnosis.setRecommendations(request.getRecommendations());
 
+
         DiagnosisEntity savedDiagnosis = this.repository.save(newDiagnosis);
 
         DiagnosisMessageDto diagnosisMessageDto = new DiagnosisMessageDto();
         diagnosisMessageDto.setId(newDiagnosis.getId());
-       diagnosisMessageDto.setConsultationId(newDiagnosis.getConsultation().getId());
+        diagnosisMessageDto.setConsultationId(newDiagnosis.getConsultation().getId());
         diagnosisMessageDto.setDescription(newDiagnosis.getDescription());
         diagnosisMessageDto.setTitle(newDiagnosis.getTitle());
         diagnosisMessageDto.setRecommendations(newDiagnosis.getRecommendations());
 
-        ObjectMapper objectMapper = new ObjectMapper();
+
+        ObjectMapper objectMapper2 = new ObjectMapper();
 
         try {
-            String messageConverted = objectMapper.writeValueAsString(diagnosisMessageDto);
-            rabbitTemplate.convertAndSend(directExchange.getName(), "diagnosis", messageConverted);
+            String messageConverted = objectMapper2.writeValueAsString(diagnosisMessageDto);
+            rabbitTemplate.convertAndSend(directExchange.getName(), "diagnosis-msg", messageConverted);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -72,4 +76,35 @@ public class DiagnosisService {
     }
 
 
+    @Transactional
+    public List<DiagnosisDto> findAllDiagnosis() {
+        return this.repository.findAll().stream()
+                .map(diagnosisEntity -> mapEntityToResponse(diagnosisEntity))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public DiagnosisDto findDiagnosisById(Long diagnosisId) {
+        return this.repository.findById(diagnosisId)
+                .map(diagnosisEntity -> mapEntityToResponse(diagnosisEntity))
+                .get();
+    }
+
+    @Transactional
+    public DiagnosisDto updateDiagnosis(DiagnosisDto req) {
+        DiagnosisEntity diagnosisUpdate = new DiagnosisEntity();
+        diagnosisUpdate.setId(req.getId());
+        diagnosisUpdate.setConsultation(consultationRepository.findConsultationById(req.getConsultationId()));
+        diagnosisUpdate.setTitle(req.getTitle());
+        diagnosisUpdate.setRecommendations(req.getRecommendations());
+        diagnosisUpdate.setDescription(req.getDescription());
+
+        DiagnosisEntity updateDiagnosis = this.repository.save(diagnosisUpdate);
+        return mapEntityToResponse(updateDiagnosis);
+    }
+
+    @Transactional
+    public void deletDiagnosis(Long id){
+        this.repository.deleteById(id);
+    }
 }

@@ -30,12 +30,12 @@ public class ReceiverConfig {
 
     @Bean
     public Binding bindingConsult(DirectExchange directExchange, Queue consultationQueue) {
-        return BindingBuilder.bind(consultationQueue).to(directExchange).with("consultation");
+        return BindingBuilder.bind(consultationQueue).to(directExchange).with("consultation-msg");
     }
 
     @Bean
     public Binding bindingDiagnosis(DirectExchange directExchange, Queue diagnosisQueue) {
-        return BindingBuilder.bind(diagnosisQueue).to(directExchange).with("diagnosis");
+        return BindingBuilder.bind(diagnosisQueue).to(directExchange).with("diagnosis-msg");
     }
 
 }

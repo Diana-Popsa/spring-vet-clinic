@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.fasttrackit.vetclinic.model.OwnerDto;
+import ro.fasttrackit.vetclinic.model.OwnerWithPetDto;
 import ro.fasttrackit.vetclinic.service.OwnerService;
 
 import java.util.List;
@@ -43,5 +44,10 @@ public class OwnerController {
     @DeleteMapping("/api/owner/{id}")
     public void deleteOwner(@PathVariable(name = "id") Long idToBeDeleted) {
         this.service.deleteOwnerById(idToBeDeleted);
+    }
+
+    @GetMapping("/api/owner/pets")
+    public List<OwnerWithPetDto> getAllOwnersWithPets(@RequestParam List<Long> ownerId){
+        return service.ownerWithPets(ownerId);
     }
 }

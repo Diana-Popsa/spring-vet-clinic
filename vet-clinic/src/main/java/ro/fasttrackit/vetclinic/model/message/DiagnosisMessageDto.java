@@ -1,4 +1,4 @@
-package ro.fasttrackit.vetclinic.model.messageSender;
+package ro.fasttrackit.vetclinic.model.message;
 
 public class DiagnosisMessageDto {
     private Long id;
@@ -6,6 +6,8 @@ public class DiagnosisMessageDto {
     private String title;
     private String description;
     private String recommendations;
+
+
 
     public Long getId() {
         return id;

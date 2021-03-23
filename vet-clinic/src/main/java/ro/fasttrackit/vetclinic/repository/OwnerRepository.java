@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import ro.fasttrackit.vetclinic.model.entity.ConsultationEntity;
 import ro.fasttrackit.vetclinic.model.entity.OwnerEntity;
 
 import java.util.Optional;
@@ -12,4 +13,5 @@ import java.util.Optional;
 public interface OwnerRepository extends JpaRepository<OwnerEntity, Long> {
     @Query("select o from owner o where o.id= :owner_id")
     OwnerEntity findOwnerById(@Param("owner_id") Long ownerId);
+
 }

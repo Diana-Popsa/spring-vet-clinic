@@ -1,5 +1,6 @@
 package ro.fasttrackit.vetclinic.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class VetDto {
@@ -7,16 +8,17 @@ public class VetDto {
     private String firstName;
     private String lastName;
     private String cnp;
-    private Date yearOfGraduation;
+    private LocalDate yearOfGraduation;
     private String specialization;
     private String phoneNumber;
     private String email;
 
-    public Date getYearOfGraduation() {
+
+    public LocalDate getYearOfGraduation() {
         return yearOfGraduation;
     }
 
-    public void setYearOfGraduation(Date yearOfGraduation) {
+    public void setYearOfGraduation(LocalDate yearOfGraduation) {
         this.yearOfGraduation = yearOfGraduation;
     }
 
